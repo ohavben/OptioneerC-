@@ -80,7 +80,7 @@ RUN wget https://github.com/lballabio/QuantLib/releases/download/QuantLib-v1.22/
 WORKDIR /quantlib
 RUN ./configure &&
 	make && \
-  make install && \
+  	make install && \
 	ldconfig 
 
 #######################################
