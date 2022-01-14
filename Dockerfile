@@ -78,7 +78,7 @@ RUN wget https://github.com/lballabio/QuantLib/releases/download/QuantLib-v1.22/
 	rm -f QuantLib-1.22.tar.gz
   
 WORKDIR /quantlib
-RUN ./configure &&
+RUN ./configure && \
 	make && \
   	make install && \
 	ldconfig 
