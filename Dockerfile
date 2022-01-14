@@ -41,6 +41,10 @@ RUN mkdir -p /run/sshd && \
   tar \
   unzip \
   valgrind \
+  libboost-all-dev \
+  automake \
+  autoconf \
+  libtool \
   wget && \
   \
   pip install behave conan pexpect requests && \
@@ -61,12 +65,29 @@ RUN curl -sSL https://github.com/include-what-you-use/include-what-you-use/archi
 WORKDIR /
 RUN rm -rf /var/tmp/build_iwyu
 
+#######################################
+#  Intermediate layer to install 
+#  quantlib and boost
+#######################################
+FROM docker4c_ci_image as docker4c_ql_image
+
+WORKDIR /tmp
+RUN wget https://github.com/lballabio/QuantLib/releases/download/QuantLib-v1.22/QuantLib-1.22.tar.gz -O QuantLib-1.22.tar.gz && \
+	mkdir /quantlib && \
+	tar xzf QuantLib-1.22.tar.gz -C /quantlib && \
+	rm -f QuantLib-1.22.tar.gz
+  
+WORKDIR /quantlib
+RUN ./configure &&
+	make && \
+  make install && \
+	ldconfig 
 
 #######################################
 # DEV image:
 #   the one you run locally
 #######################################
-FROM docker4c_ci_image as docker4c_dev_image
+FROM docker4c_ql_image as docker4c_dev_image
 
 RUN apt-get -y install --fix-missing \
   cmake-curses-gui \
