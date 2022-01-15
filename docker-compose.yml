@@ -7,8 +7,8 @@ services:
       - apparmor:unconfined
     cap_add:
       - SYS_PTRACE
-    container_name: docker4c_dev_env
-    image: docker4c-dev:latest
+    container_name: quantlib_dev_env
+    image: oby1/quantlib-dev
     environment:
         - TERM=xterm-256color # For a colored Terminal
     volumes:
@@ -21,4 +21,4 @@ services:
     ports:
       - "2222:22"
     privileged: true
-    hostname: docker4c_dev_env
+    hostname: quantlib_dev_env
